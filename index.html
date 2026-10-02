@@ -1,24 +1,153 @@
-<!doctype html>
-<html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Leadership Audit Tracker</title><link rel="stylesheet" href="styles.css"></head>
-<body>
-<section id="authView" class="center"><div class="card login">
-  <div class="logo">LAT</div><h1>Leadership Audit Tracker</h1>
-  <p class="muted">School leadership audit system</p>
-  <div class="tabs"><button id="showLogin" type="button">Sign in</button><button id="showSignup" type="button" class="secondary">Create account</button></div>
-  <form id="loginForm"><label>Email<input id="email" type="email" required></label><label>Password<input id="password" type="password" required></label><button>Sign in</button><p id="loginError" class="error"></p></form>
-  <form id="signupForm" class="hidden"><label>Email<input id="signupEmail" type="email" required></label><label>Create password<input id="signupPassword" type="password" minlength="6" required></label><button>Create account</button><p class="muted">After signing up, your account will wait for the administrator to assign your department.</p><p id="signupError" class="error"></p></form>
-</div></section>
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Leadership Audit Tracker 2026-27</title><meta name="robots" content="noindex">
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--tx:#0f172a;--mut:#64748b;--bd:#e2e8f0;--ac:#1e40af;--acl:#dbeafe;--ok:#15803d;--okl:#dcfce7;--wn:#b45309;--wnl:#fef3c7;--bad:#b91c1c;--badl:#fee2e2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1220;--card:#162033;--tx:#e8edf5;--mut:#94a3b8;--bd:#263449;--ac:#60a5fa;--acl:#1e3a5f;--ok:#4ade80;--okl:#14351f;--wn:#fbbf24;--wnl:#3b2e0f;--bad:#f87171;--badl:#4a1d1d}}
+:root[data-theme="dark"]{--bg:#0b1220;--card:#162033;--tx:#e8edf5;--mut:#94a3b8;--bd:#263449;--ac:#60a5fa;--acl:#1e3a5f;--ok:#4ade80;--okl:#14351f;--wn:#fbbf24;--wnl:#3b2e0f;--bad:#f87171;--badl:#4a1d1d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.w{max-width:1100px;margin:0 auto;padding:16px}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+h1{font-size:19px;margin:0}h1 small{display:block;font-weight:400;color:var(--mut);font-size:12px}
+select,input,button,textarea{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:7px 10px}
+button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}:root[data-theme="dark"] button.p{color:#0b1220}
+nav{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--bd);margin-bottom:14px}
+nav button{border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--mut);padding:9px 12px;white-space:nowrap}
+nav button.on{color:var(--ac);border-color:var(--ac);font-weight:600}
+.g{display:grid;gap:12px}.k{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.c2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px}
+.card h3{margin:0 0 10px;font-size:14px}.kv{font-size:26px;font-weight:700}.mut{color:var(--mut);font-size:12px}
+.bar{height:8px;background:var(--bd);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%}
+.ok{color:var(--ok)}.wn{color:var(--wn)}.bad{color:var(--bad)}.bg-ok{background:var(--ok)}.bg-wn{background:var(--wn)}.bg-bad{background:var(--bad)}
+.pc{cursor:pointer}.pc.on{outline:2px solid var(--ac)}.pc .r{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.al{display:flex;gap:8px;padding:8px 0;border-top:1px solid var(--bd);align-items:flex-start}.al:first-of-type{border-top:0}
+.dot{width:9px;height:9px;border-radius:50%;margin-top:5px;flex:none}
+.tw{overflow-x:auto;border:1px solid var(--bd);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:560px}th,td{padding:7px 9px;border-bottom:1px solid var(--bd);text-align:left;font-size:13px}
+th{font-size:12px;color:var(--mut);background:var(--card);position:sticky;top:0}td:first-child,th:first-child{position:sticky;left:0;background:var(--card);min-width:190px}
+tr.dm td{background:var(--bg);font-weight:600;font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.ch{display:inline-block;min-width:44px;text-align:center;padding:3px 6px;border-radius:6px;font-weight:600;font-size:12px;cursor:pointer;border:0}
+.ch.ok{background:var(--okl)}.ch.warn{background:var(--wnl);color:var(--wn)}.ch.bad{background:var(--badl)}.ch.done{background:var(--ok);color:#fff}.ch.na{background:none;color:var(--mut);font-weight:400}
+.ov{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:9}.ov.on{display:flex}
+.md{background:var(--card);border-radius:14px;padding:18px;width:100%;max-width:460px;max-height:92vh;overflow:auto}
+.md label{display:block;margin:10px 0 4px;font-size:12px;color:var(--mut)}.md select,.md input,.md textarea{width:100%}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chips button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}.row input{flex:1;min-width:140px}
+.st{font-size:12px;color:var(--mut)}.empty{padding:18px;text-align:center;color:var(--mut)}
+.tst{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--tx);color:var(--bg);padding:9px 16px;border-radius:20px;z-index:10;display:none}
+[dir=rtl] td,[dir=rtl] th{text-align:right}[dir=rtl] td:first-child,[dir=rtl] th:first-child{left:auto;right:0}[dir=rtl] .md label{text-align:right}
+.out #nav,.out .hb{display:none}.md input{margin-bottom:4px}
+</style></head><body><div class="w">
+<header><h1><span id="h1t">Leadership Audit Tracker</span> <small>Heads of Department &amp; Head of Inclusion · 2026-27</small></h1><div class="row hb" style="margin:0"><select id="per"></select><button class="p" id="lb" onclick="openLog()"></button><button id="pw" onclick="openPw()"></button><button id="so" onclick="signOut()"></button></div></header>
+<nav id="nav"></nav><main id="main"></main></div>
+<div class="ov" id="ov"><div class="md" id="md"></div></div><div class="tst" id="tst"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>const FQ={W:'Weekly',B:'Fortnightly',M:'Monthly',S:'Once a semester',A:'Annually',N:'As needed'};
+const FQA={W:'أسبوعيًا',B:'كل أسبوعين',M:'شهريًا',S:'مرة كل فصل',A:'سنويًا',N:'عند الحاجة'};
+const ACT=[[1,'Assessment','Assessment scheduling & administration','S','','Edunation'],[2,'Assessment','Assessment review (quizzes & tests)','M','','Feedback email / form to teachers'],[3,'Assessment','Assessment moderation meetings','N','','Meeting minutes'],[4,"Assessment","Students' book audits & work scrutiny",'W','','MS Form'],[5,'Assessment','Data analysis & action plans','M','','Power BI'],[6,'Assessment','SEN achievement tracking (register, IEPs)','M','M','Feedback email / form'],[7,'Assessment','Grading book review','M','','Feedback email / form'],[8,'Assessment','Report cards accuracy','S','','Feedback email / form'],[9,'Assessment','Benchmark & placement tests','N','M','Forms'],[10,'Teaching','Formal lesson observations','S','S','HR staff appraisal link'],[11,'Teaching','Drop-in visits','W','W','Rediker Teacher Evaluator'],[12,'Teaching','Peer observation schedule','S','','Forms'],[13,'Teaching','Learning environment follow-up','W','',''],[14,'Teaching','Competitions & contests','M','',''],[15,'Teaching','Intervention plans review','M','M',''],[16,'Curriculum','Curriculum plans (Atlas report)','M','','Atlas'],[17,'Curriculum','Lesson presentation / resources review','W','','Feedback email / form'],[18,'Curriculum','Weekly scheme review','W','','Feedback email / form'],[19,'Curriculum','Resources presentation to Governing Body','A','','Email & forms'],[20,'Curriculum','Educational platform usage monitoring','B','','ICT tracker'],[21,'Admission','New student interviews','N','','Registration Office forms'],[22,'Protection & Care','Behaviour modification plans follow-up','','W','Head of Inclusion form']];
+const AA={1:'جدولة وإدارة التقييمات الداخلية والخارجية',2:'مراجعة التقييمات (الاختبارات القصيرة والفصلية)',3:'اجتماعات معايرة التقييم',4:'تدقيق دفاتر الطلبة ومتابعة الأعمال',5:'تحليل البيانات وخطط العمل',6:'متابعة تحصيل الطلبة ذوي الهمم',7:'مراجعة سجل الدرجات',8:'التحقق من دقة بطاقات التقارير',9:'اختبارات القياس والتنسيب',10:'الزيارات الصفية الرسمية',11:'الزيارات الصفية المفاجئة',12:'جدول الزيارات التبادلية بين المعلمين',13:'متابعة البيئة الصفية',14:'المسابقات والفعاليات',15:'مراجعة خطط التدخل',16:'الخطط المنهجية (أطلس)',17:'مراجعة العروض والمصادر التعليمية',18:'مراجعة الخطة الأسبوعية',19:'عرض الموارد على مجلس الإدارة',20:'متابعة استخدام المنصات التعليمية',21:'مقابلات الطلبة الجدد',22:'متابعة خطط تعديل السلوك'};
+const DA={'Assessment':'التقييم','Teaching':'التدريس','Curriculum':'المنهج','Admission':'القبول','Protection & Care':'الحماية والرعاية'};
+const AR={'Leadership Audit Tracker':'متابعة التدقيق القيادي','+ Log action':'+ تسجيل إجراء','Overview':'الرئيسية','My actions':'إجراءاتي','Log history':'السجل','On-track score (to date)':'نسبة الالتزام حتى الآن','Critical alerts':'تنبيهات عاجلة','total':'المجموع','Logged last 7 days':'المسجّل آخر ٧ أيام','Alerts':'التنبيهات','Log':'تسجيل','No alerts — everyone is on track.':'لا توجد تنبيهات — أنت على المسار الصحيح.','overdue':'متأخرة','behind':'أقل من المطلوب','complete':'مكتمل','Action':'الإجراء','Date':'التاريخ','Note':'ملاحظة','Delete':'حذف','Confirm?':'تأكيد؟','Log an action':'تسجيل إجراء','Date completed':'تاريخ الإنجاز','Note (optional)':'ملاحظة (اختياري)','Cancel':'إلغاء','Save entry':'حفظ','Entry saved':'تم الحفظ','Evidence':'الدليل','Semester 1':'الفصل الأول','Semester 2':'الفصل الثاني','Each cell: logged / expected to date. Tap a cell to log an action.':'كل خانة: المسجّل / المطلوب حتى الآن. اضغط على الخانة لتسجيل إجراء.','No entries yet. Use “+ Log action” to record your first one.':'لا توجد سجلات بعد. استخدم «+ تسجيل إجراء».','Select your role':'اختر دورك','Sign out':'تسجيل الخروج','Change passcode':'تغيير الرمز','New passcode (8+ characters)':'الرمز الجديد (٨ أحرف على الأقل)','Confirm passcode':'تأكيد الرمز','Save':'حفظ','Passcode updated':'تم تغيير الرمز'};
+const PER=[{k:'S1',n:'Semester 1',s:'2026-09-01',e:'2027-01-15'},{k:'S2',n:'Semester 2',s:'2027-01-18',e:'2027-06-30'}];
 
-<section id="appView" class="hidden"><header><div><div class="logo small">LAT</div><div><h1>Leadership Audit Tracker</h1><p id="userLabel" class="muted"></p></div></div><button id="logoutBtn" class="secondary">Sign out</button></header>
-<main><div id="message" class="message hidden"></div>
-<section id="waitingView" class="card hidden" style="padding:30px"><h2>Waiting for assignment</h2><p class="muted">Your account has been created. The administrator will assign you to your department. You will then be able to see your department audit only.</p></section>
-<section id="leaderView" class="hidden"><div class="stats"><div class="card stat"><span>Total actions</span><b id="totalActions">0</b></div><div class="card stat"><span>Completed</span><b id="completedActions">0</b></div><div class="card stat"><span>Progress</span><b id="progress">0%</b></div></div>
-<section class="card"><div class="sectionHead"><div><h2>Audit checklist</h2><p class="muted">Record evidence when an action is completed.</p></div><button id="refreshBtn" class="secondary">Refresh</button></div><div id="actionsList"></div></section></section>
-<section id="adminView" class="card hidden" style="padding:24px"><div class="sectionHead" style="padding:0 0 18px"><div><h2>Administrator</h2><p class="muted">Assign each signup to one department.</p></div><button id="adminRefresh" class="secondary">Refresh</button></div><div id="adminTable"></div></section>
-</main></section>
-
-<div id="entryModal" class="modal hidden"><div class="card modalBox"><button id="closeModal" class="close">×</button><h2 id="modalTitle">Record evidence</h2><form id="entryForm"><input id="modalActionId" type="hidden"><label>Date completed<input id="doneOn" type="date" required></label><label>Evidence / note<textarea id="note" maxlength="500" rows="5"></textarea></label><button>Save evidence</button><p id="entryError" class="error"></p></form></div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="app.js"></script>
-</body></html>
+const SB=supabase.createClient('https://npovzdaxuvxeqgdougqh.supabase.co','sb_publishable_I4EkQQuOkGmXAf7Mb1wWKw_xSx-HM6p');
+const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const D=s=>new Date(s+'T00:00:00'),T=new Date(new Date().setHours(0,0,0,0)),TI=iso(T),DAY=864e5;
+let leaders=[],people=[],logs={},mel=null,adm=false,tab='ov',per=T>=D(PER[1].s)?PER[1]:PER[0],fp=null,showAll=false,armed=null,ls={},lp=null,cred=null;
+const P=()=>people,VP=()=>people,ar=()=>!!mel&&!adm&&mel.lang=='ar',t=s=>ar()&&AR[s]||s,nm=a=>ar()?AA[a[0]]:a[2],fq=q=>ar()?FQA[q]:FQ[q],dn=d=>ar()?DA[d]||d:d,pn=p=>esc(ar()&&p.nar?p.nar:p.name);
+function toast(m){const e=$('tst');e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',2600)}
+async function refresh(){const{data:l}=await SB.from('leaders').select('*').order('created_at');leaders=l||[];people=leaders.filter(x=>x.role!='admin'&&x.active).map(x=>({...x,nar:x.name_ar}));
+ let all=[],from=0;for(;;){const{data,error}=await SB.from('entries').select('id,leader_id,action_id,done_on,note').order('created_at').range(from,from+999);if(error||!data)break;all.push(...data);if(data.length<1000)break;from+=1000}
+ logs={};all.forEach(x=>(logs[x.leader_id]=logs[x.leader_id]||[]).push({i:x.id,p:x.leader_id,a:x.action_id,d:x.done_on,n:x.note||''}))}
+function loginView(msg){mel=null;document.body.classList.add('out');document.documentElement.dir='ltr';$('h1t').textContent='Leadership Audit Tracker';
+ $('main').innerHTML=`<div class="card" style="max-width:380px;margin:40px auto"><h3>Sign in · تسجيل الدخول</h3>${msg?`<div class="bad" style="margin-bottom:8px">${esc(msg)}</div>`:''}<div class="md" style="padding:0"><label>Username · اسم المستخدم</label><input id="lu" autocomplete="username" autocapitalize="none"><label>Passcode · الرمز</label><input id="lq" type="password" autocomplete="current-password"><div class="row" style="margin-top:14px"><button class="p" style="flex:1" id="lg_" onclick="doLogin()">Sign in · دخول</button></div></div></div>`;
+ $('lq').onkeydown=$('lu').onkeydown=e=>{if(e.key=='Enter')doLogin()}}
+async function doLogin(){const u=$('lu').value.trim().toLowerCase(),p=$('lq').value;if(!u||!p)return;$('lg_').disabled=true;
+ const{error}=await SB.auth.signInWithPassword({email:u.includes('@')?u:u+'@audit.example',password:p});if(error){loginView('Incorrect username or passcode · اسم المستخدم أو الرمز غير صحيح');return}await boot()}
+async function boot(){const{data:{session}}=await SB.auth.getSession();if(!session){loginView();return}
+ await refresh();mel=leaders.find(x=>x.user_id==session.user.id&&x.active);
+ if(!mel){await SB.auth.signOut();loginView('This account has no access · هذا الحساب لا يملك صلاحية');return}
+ adm=mel.role=='admin';document.body.classList.remove('out');render()}
+async function signOut(){await SB.auth.signOut();leaders=[];people=[];logs={};loginView()}
+function render(){if(!mel)return;const L=ar();document.documentElement.dir=L?'rtl':'ltr';$('h1t').textContent=t('Leadership Audit Tracker');$('lb').textContent=t('+ Log action');$('pw').textContent=t('Change passcode');$('so').textContent=t('Sign out');
+ $('per').innerHTML=PER.map(p=>`<option value="${p.k}" ${p.k==per.k?'selected':''}>${t(p.n)}</option>`).join('');
+ const TABS=adm?[['ov','Overview'],['mx','Matrix'],['an','Analysis'],['lg','Log history'],['tm','Team & logins']]:[['ov','Overview'],['mx','My actions'],['lg','Log history']];if(!TABS.find(x=>x[0]==tab))tab='ov';
+ $('nav').innerHTML=TABS.map(x=>`<button class="${tab==x[0]?'on':''}" onclick="tab='${x[0]}';render()">${t(x[1])}</button>`).join('');
+ $('main').innerHTML=({ov,mx,an,lg,tm})[tab]()}
+function lg(){const all=Object.values(logs).flat().filter(l=>!fp||l.p==fp).sort((a,b)=>b.d.localeCompare(a.d)).slice(0,80);
+ return (adm?`<div class="row"><select onchange="fp=this.value||null;render()"><option value="">All leaders</option>${P().map(p=>`<option value="${p.id}" ${fp==p.id?'selected':''}>${esc(p.name)}</option>`).join('')}</select><span class="mut">Latest 80 entries</span></div>`:'')+
+ (all.length?`<div class="tw"><table><tr><th>${t('Date')}</th>${adm?'<th>Leader</th>':''}<th>${t('Action')}</th><th>${t('Note')}</th>${adm?'<th></th>':''}</tr>${all.map(l=>{const p=P().find(x=>x.id==l.p),a=ACT.find(x=>x[0]==l.a);return `<tr><td>${esc(l.d)}</td>${adm?`<td>${esc(p?.name||'')}</td>`:''}<td>${esc(a?nm(a):l.a)}</td><td>${esc(l.n)}</td>${adm?`<td><button onclick="del('${l.i}')">${armed==l.i?'Confirm?':'Delete'}</button></td>`:''}</tr>`}).join('')}</table></div>`:`<div class="card empty">${t('No entries yet. Use “+ Log action” to record your first one.')}</div>`)}
+async function del(id){if(armed!=id){armed=id;render();return}armed=null;const{error}=await SB.from('entries').delete().eq('id',id);if(error)toast('Not deleted: '+error.message);await refresh();render()}
+const gen=()=>{const c='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789',r=crypto.getRandomValues(new Uint8Array(10));return[...r].map(x=>c[x%c.length]).join('')};
+function tm(){const ls_=leaders.filter(l=>l.id!=mel.id);
+ return `${cred?`<div class="card" style="border-color:var(--ok);margin-bottom:12px"><h3>Login ready — give this to ${esc(cred.name)}</h3><div style="font-size:17px;font-weight:700">Username: ${esc(cred.u)}<br>Passcode: ${esc(cred.p)}</div><div class="mut" style="margin-top:6px">Shown once only — it is not stored anywhere you can read it again. They can change it after signing in.</div></div>`:''}
+ <div class="card"><h3>Leaders &amp; logins</h3><div class="st" style="margin-bottom:8px">Admins see everything and can create or reset logins. Pick “Admin (Principal)” as the role for anyone who should have full access.</div>${ls_.map(l=>`<div class="row"><input value="${esc(l.name)}" onchange="upd('${l.id}','name',this.value.trim()||'Unnamed')"><input value="${esc(l.name_ar||'')}" placeholder="Arabic name" dir="rtl" onchange="upd('${l.id}','name_ar',this.value.trim()||null)"><select onchange="upd('${l.id}','role',this.value)"><option value="hod" ${l.role=='hod'?'selected':''}>Head of Dept</option><option value="hoi" ${l.role=='hoi'?'selected':''}>Head of Inclusion</option><option value="admin" ${l.role=='admin'?'selected':''}>Admin (Principal)</option></select><select onchange="upd('${l.id}','lang',this.value)"><option value="en">English</option><option value="ar" ${l.lang=='ar'?'selected':''}>العربية</option></select><span class="mut" style="min-width:110px">${esc(l.username)} · ${l.user_id?(l.active?'login active':'disabled'):'no login'}</span><button onclick="setPass('${l.id}')">${armed=='r'+l.id?'Confirm reset?':l.user_id?'Reset passcode':'Create login'}</button>${l.user_id?`<button onclick="upd('${l.id}','active',${!l.active})">${l.active?'Disable':'Enable'}</button>`:''}</div>`).join('')}
+ <div class="row" style="margin-top:12px"><input id="nu" placeholder="username (a-z, 0-9)"><input id="nn" placeholder="Display name"><select id="nr"><option value="hod">Head of Dept</option><option value="hoi">Head of Inclusion</option><option value="admin">Admin (Principal)</option></select><button onclick="addL()">+ Add leader</button></div></div>
+ <div class="card" style="margin-top:12px"><h3>Export</h3><button onclick="exp()">Download all entries (CSV)</button><div class="st" style="margin-top:8px">Heads can add entries but cannot edit or delete them; only you can. Quotas come from your action sheet. S1 ${PER[0].s} to ${PER[0].e}; S2 ${PER[1].s} to ${PER[1].e}.</div></div>`}
+async function upd(id,f,v){const{error}=await SB.from('leaders').update({[f]:v}).eq('id',id);if(error)toast('Not saved: '+error.message);await refresh();render()}
+async function addL(){const u=$('nu').value.trim().toLowerCase(),n=$('nn').value.trim();if(!u||!n)return toast('Enter a username and name');const{error}=await SB.from('leaders').insert({username:u,name:n,role:$('nr').value});if(error)return toast('Not added: '+(error.message.includes('check')?'username must be 3-30 letters/numbers':error.message));await refresh();render()}
+async function setPass(id){const l=leaders.find(x=>x.id==id);if(l.user_id&&armed!='r'+id){armed='r'+id;render();return}armed=null;const p=gen();
+ const{data,error}=await SB.functions.invoke('manage-login',{body:{leader_id:id,passcode:p}});if(error||(data&&data.error)){toast('Failed: '+((data&&data.error)||error.message));render();return}
+ cred={name:l.name,u:l.username,p};await refresh();render()}
+async function exp(){const r=[['Date','Leader','Role','Domain','Action','Note']];Object.values(logs).flat().forEach(l=>{const p=leaders.find(x=>x.id==l.p),a=ACT.find(x=>x[0]==l.a);r.push([l.d,p?.name||'',p?.role||'',a?a[1]:'',a?a[2]:'',l.n||''])});
+ const csv=r.map(x=>x.map(v=>{v=String(v);if(/^[=+\-@]/.test(v))v="'"+v;return '"'+v.replace(/"/g,'""')+'"'}).join(',')).join('\n'),b=new Blob(['\ufeff'+csv],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='audit-log-2026-27.csv';a.click()}
+function openLog(pid,aid){lp=adm?(pid||lp||(P()[0]||{}).id):mel.id;ls={a:aid||null};drawLog();$('ov').classList.add('on')}
+function drawLog(){const p=(adm?P():leaders).find(x=>x.id==lp)||P()[0];if(!p){$('md').innerHTML='<div class="empty">Add a leader first.</div><button onclick="closeLog()">Close</button>';return}lp=p.id;
+ const opts=ACT.filter(a=>p.role=='hoi'?a[4]:a[3]);if(!ls.a||!opts.find(a=>a[0]==ls.a))ls.a=opts[0][0];const a=ACT.find(x=>x[0]==ls.a),dm=[...new Set(opts.map(x=>x[1]))];
+ $('md').innerHTML=`<h3 style="margin:0">${t('Log an action')}</h3>${adm?`<label>Leader</label><div class="chips">${P().map(x=>`<button class="${x.id==lp?'on':''}" onclick="lp='${x.id}';drawLog()">${esc(x.name)}</button>`).join('')}</div>`:''}
+ <label>${t('Action')}</label><select onchange="ls.a=+this.value;drawLog()">${dm.map(d=>`<optgroup label="${dn(d)}">${opts.filter(x=>x[1]==d).map(x=>`<option value="${x[0]}" ${x[0]==ls.a?'selected':''}>${esc(nm(x))}</option>`).join('')}</optgroup>`).join('')}</select>
+ <div class="st" style="margin-top:4px">${fq(p.role=='hoi'?a[4]:a[3])}${a[5]?' · '+t('Evidence')+': '+esc(a[5]):''}</div>
+ <label>${t('Date completed')}</label><input type="date" id="ld" value="${TI}" max="${TI}"><label>${t('Note (optional)')}</label><textarea id="ln" rows="2" maxlength="500"></textarea>
+ <div class="row" style="margin-top:14px;justify-content:flex-end"><button onclick="closeLog()">${t('Cancel')}</button><button class="p" id="sv" onclick="saveLog()">${t('Save entry')}</button></div>`}
+function closeLog(){$('ov').classList.remove('on')}
+async function saveLog(){$('sv').disabled=true;const{error}=await SB.from('entries').insert({leader_id:lp,action_id:ls.a,done_on:$('ld').value||TI,note:$('ln').value.trim()||null});if(error){toast('Not saved: '+error.message);$('sv').disabled=false;return}closeLog();toast(t('Entry saved'));await refresh();render()}
+function openPw(){$('md').innerHTML=`<h3 style="margin:0">${t('Change passcode')}</h3><label>${t('New passcode (8+ characters)')}</label><input type="password" id="p1" autocomplete="new-password"><label>${t('Confirm passcode')}</label><input type="password" id="p2" autocomplete="new-password"><div class="row" style="margin-top:14px;justify-content:flex-end"><button onclick="closeLog()">${t('Cancel')}</button><button class="p" onclick="savePw()">${t('Save')}</button></div>`;$('ov').classList.add('on')}
+async function savePw(){const a=$('p1').value;if(a.length<8||a!=$('p2').value)return toast('Passcodes must match and be 8+ characters');const{error}=await SB.auth.updateUser({password:a});if(error)return toast(error.message);closeLog();toast(t('Passcode updated'))}
+$('ov').onclick=e=>{if(e.target.id=='ov')closeLog()};$('per').onchange=e=>{per=PER.find(p=>p.k==e.target.value);render()};
+SB.auth.onAuthStateChange(ev=>{if(ev=='SIGNED_OUT'&&mel)loginView()});
+setInterval(()=>{const a=document.activeElement;if(mel&&!$('ov').classList.contains('on')&&!(a&&/INPUT|SELECT|TEXTAREA/.test(a.tagName)))refresh().then(render)},120000);
+boot();
+function cell(p,a){const q=p.role=='hoi'?a[4]:a[3];if(!q)return null;
+ const tdays=Math.round((D(per.e)-D(per.s))/DAY)+1,days=Math.max(0,Math.min(tdays,Math.round((T-D(per.s))/DAY)+1)),left=tdays-days;
+ let exp=0,tot=0;
+ if(q=='W'){exp=Math.floor(days/7);tot=Math.floor(tdays/7)}else if(q=='B'){exp=Math.floor(days/14);tot=Math.floor(tdays/14)}else if(q=='M'){exp=Math.floor(days/30.4);tot=Math.floor(tdays/30.4)}else if(q=='S'||(q=='A'&&per.k=='S2')){tot=1;exp=left<=30?1:0}
+ const s=q=='A'?PER[0].s:per.s,e=q=='A'?PER[1].e:per.e,its=(logs[p.id]||[]).filter(l=>l.a==a[0]&&l.d>=s&&l.d<=e),done=its.length,last=its.map(l=>l.d).sort().pop()||null,gap=exp-done;
+ let st=!tot&&!exp?'na':(tot&&done>=tot)?'done':gap<=0?'ok':(gap>=2||done==0)?'bad':'warn';
+ return{q,exp,tot,done,last,left,st,gap}}
+const ago=d=>Math.round((T-D(d))/DAY);
+function stats(p){let e=0,d=0,bad=0,wn=0,tt=0,td=0;ACT.forEach(a=>{const c=cell(p,a);if(!c)return;e+=c.exp;d+=Math.min(c.done,c.exp);tt+=c.tot;td+=Math.min(c.done,c.tot);if(c.st=='bad')bad++;if(c.st=='warn')wn++});
+ return{score:e?Math.round(d/e*100):null,bad,wn,comp:tt?Math.round(td/tt*100):null,e,d}}
+const col=s=>s==null?'':s>=85?'ok':s>=60?'wn':'bad';
+function alerts(){const out=[];VP().forEach(p=>{ACT.forEach(a=>{const c=cell(p,a);if(!c)return;const L=ar();
+ if(c.st=='bad'||c.st=='warn')out.push({sev:c.st=='bad'?2:1,g:c.gap,p,t:L?`<b>${pn(p)}</b> · ${nm(a)} — ${c.done} من ${c.exp} مطلوبة (${fq(c.q)})${c.last?`، آخر تسجيل قبل ${ago(c.last)} يومًا`:'، لا يوجد تسجيل بعد'}`:`<b>${esc(p.name)}</b> · ${esc(a[2])} — ${c.done} of ${c.exp} expected (${FQ[c.q]})${c.last?`, last logged ${ago(c.last)}d ago`:', nothing logged yet'}`});
+ else if(c.tot==1&&!c.done&&c.left<=45&&c.left>30)out.push({sev:1,g:0,p,t:L?`<b>${pn(p)}</b> · ${nm(a)} — مستحق قبل نهاية الفصل (${c.left} يومًا)`:`<b>${esc(p.name)}</b> · ${esc(a[2])} — due by end of semester (${c.left} days left)`})});
+ const al=(logs[p.id]||[]).map(l=>l.d).sort().pop();if((T-D(per.s))/DAY>14&&(!al||ago(al)>14))out.unshift({sev:3,g:9,p,t:ar()?`<b>${pn(p)}</b> — لا يوجد نشاط مسجّل منذ ١٤ يومًا`:`<b>${esc(p.name)}</b> — no activity logged in the last 14 days`})});
+ return out.sort((a,b)=>b.sev-a.sev||b.g-a.g)}
+function ov(){const ps=VP().map(p=>({p,s:stats(p)})),al=alerts(),sh=al.filter(a=>!fp||a.p.id==fp),lim=showAll?500:10,L=ar();
+ const ex=ps.reduce((a,x)=>a+x.s.e,0),dd=ps.reduce((a,x)=>a+x.s.d,0),o=ex?Math.round(dd/ex*100):null,wk=Object.values(logs).flat().filter(l=>(T-D(l.d))/DAY<7&&l.d<=TI).length;
+ return `<div class="g k"><div class="card"><div class="mut">${t('On-track score (to date)')}</div><div class="kv ${col(o)}">${o==null?'—':o+'%'}</div><div class="mut">${t(per.n)}</div></div>
+ <div class="card"><div class="mut">${t('Critical alerts')}</div><div class="kv ${al.filter(a=>a.sev>1).length?'bad':'ok'}">${al.filter(a=>a.sev>1).length}</div><div class="mut">${al.length} ${t('total')}</div></div>
+ <div class="card"><div class="mut">${t('Logged last 7 days')}</div><div class="kv">${wk}</div></div>
+ ${adm?`<div class="card"><div class="mut">Leaders at ≥85%</div><div class="kv">${ps.filter(x=>x.s.score>=85).length}<span class="mut"> / ${ps.length}</span></div></div>`:''}</div>
+ ${adm?`<h3 style="margin:16px 0 8px">Leaders <span class="mut">(tap to filter alerts)</span></h3><div class="g c2">${ps.map(({p,s})=>`<div class="card pc ${fp==p.id?'on':''}" onclick="fp=fp=='${p.id}'?null:'${p.id}';render()"><div class="r"><b>${esc(p.name)}</b><span class="kv ${col(s.score)}" style="font-size:20px">${s.score==null?'—':s.score+'%'}</span></div>
+ <div class="bar"><i class="bg-${col(s.score)||'ok'}" style="width:${s.score||0}%"></i></div><div class="mut" style="margin-top:6px">${p.role=='hoi'?'Head of Inclusion':'Head of Dept'} · <span class="bad">${s.bad} overdue</span> · <span class="wn">${s.wn} behind</span> · period ${s.comp==null?'—':s.comp+'%'} complete${p.lang=='ar'?' · AR':''}</div></div>`).join('')}</div>`:''}
+ <h3 style="margin:16px 0 8px">${t('Alerts')} ${fp&&adm?'· '+esc(P().find(p=>p.id==fp)?.name||''):''}</h3><div class="card">${sh.length?sh.slice(0,lim).map(a=>`<div class="al"><span class="dot bg-${a.sev>1?'bad':'wn'}"></span><div style="flex:1">${a.t}</div><button onclick="openLog('${a.p.id}')">${t('Log')}</button></div>`).join('')+(sh.length>lim?`<div style="padding-top:8px"><button onclick="showAll=true;render()">${L?'عرض الكل':'Show all'} ${sh.length}</button></div>`:''):`<div class="empty">${t('No alerts — everyone is on track.')}</div>`}</div>`}
+function mx(){const ps=VP();let h=`<div class="mut" style="margin-bottom:8px">${t('Each cell: logged / expected to date. Tap a cell to log an action.')}</div><div class="tw"><table><tr><th>${t('Action')}</th>${ps.map(p=>`<th>${pn(p)}</th>`).join('')}</tr>`,dm='';
+ ACT.forEach(a=>{if(!ps.some(p=>cell(p,a)))return;if(a[1]!=dm){dm=a[1];h+=`<tr class="dm"><td colspan="${ps.length+1}">${dn(dm)}</td></tr>`}
+ h+=`<tr><td>${esc(nm(a))}<div class="mut">${fq(a[3]||a[4])}</div></td>${ps.map(p=>{const c=cell(p,a);return `<td>${c?`<button class="ch ${c.st}" onclick="openLog('${p.id}',${a[0]})">${c.done}/${c.exp}</button>`:'<span class="mut">–</span>'}</td>`}).join('')}</tr>`});
+ return h+'</table></div>'}
+function an(){const doms=[...new Set(ACT.map(a=>a[1]))],rows=[];
+ const ag=a=>{let e=0,d=0;P().forEach(p=>{const c=cell(p,a);if(c){e+=c.exp;d+=Math.min(c.done,c.exp)}});return{e,d,s:e?Math.round(d/e*100):null}};
+ const dm=doms.map(n=>{let e=0,d=0;ACT.filter(a=>a[1]==n).forEach(a=>{const g=ag(a);e+=g.e;d+=g.d});return{n,s:e?Math.round(d/e*100):null}});
+ const ar=ACT.map(a=>({a,...ag(a)})).filter(x=>x.s!=null).sort((x,y)=>x.s-y.s).slice(0,8);
+ const wkS=D(per.s),nW=Math.ceil((Math.min(T,D(per.e))-wkS)/DAY/7)||1,wc=Array(nW).fill(0);
+ Object.values(logs).flat().forEach(l=>{if(l.d>=per.s&&l.d<=per.e){const i=Math.floor((D(l.d)-wkS)/DAY/7);if(i>=0&&i<nW)wc[i]++}});
+ const mxv=Math.max(1,...wc),bw=Math.max(6,Math.min(26,640/nW-3));
+ const bars=l=>l.map(x=>`<div style="margin-bottom:9px"><div class="r" style="display:flex;justify-content:space-between"><span>${esc(x.n)}</span><b class="${col(x.s)}">${x.s==null?'—':x.s+'%'}</b></div><div class="bar"><i class="bg-${col(x.s)||'ok'}" style="width:${x.s||0}%"></i></div></div>`).join('');
+ return `<div class="g c2"><div class="card"><h3>Compliance by domain</h3>${bars(dm)}</div>
+ <div class="card"><h3>Furthest behind (all leaders combined)</h3>${ar.length?bars(ar.map(x=>({n:x.a[2],s:x.s}))):'<div class="empty">Nothing due yet.</div>'}</div></div>
+ <div class="card" style="margin-top:12px"><h3>Actions logged per week — ${per.n}</h3><div style="overflow-x:auto"><svg width="${nW*(bw+3)+30}" height="130" role="img" aria-label="Weekly log counts">${wc.map((v,i)=>`<rect x="${i*(bw+3)+24}" y="${110-v/mxv*95}" width="${bw}" height="${v/mxv*95}" rx="2" fill="var(--ac)"/><text x="${i*(bw+3)+24+bw/2}" y="124" font-size="9" text-anchor="middle" fill="var(--mut)">${i+1}</text>${v?`<text x="${i*(bw+3)+24+bw/2}" y="${106-v/mxv*95}" font-size="9" text-anchor="middle" fill="var(--tx)">${v}</text>`:''}`).join('')}</svg></div><div class="mut">Week number of semester. A flat or falling line means monitoring is slipping.</div></div>
+ <div class="card" style="margin-top:12px"><h3>Leader comparison</h3>${bars(P().map(p=>({n:p.name,s:stats(p).score})))}</div>`}
+</script></body></html>
