@@ -2,14 +2,13 @@
 
 Internal school audit tracker built with Supabase.
 
-## Current version
-- Secure Supabase email/password login
+Public signup and GitHub Pages deployment enabled.
+
+- Public account signup
+- Waiting screen until admin assigns a department
 - Department-specific audit checklist
+- Admin assignment of leaders to departments
 - Evidence/date recording
-- Admin overview
 - Supabase Row Level Security remains the authority for access
 
 The browser uses the Supabase publishable key only. No service-role key is stored in this repository.
-
-## Database
-Supabase project: npovzdaxuvxeqgdougqh
